@@ -1,55 +1,54 @@
-import { useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import LoginFormProps from '@/type/loginFormProps';
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from 'next/router';
-import { FormInput } from '@/type/form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from '@/utils/formValidation';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
-  const [error, setError] = useState('');
+const schema = yup.object().shape({
+  email: yup.string().required("Email is required"),
+  password: yup.string().required("Password is required"),
+});
+
+const LoginForm = () => {
   const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInput>({
-    resolver: yupResolver(schema)
-  })
-
-  const onSubmit: SubmitHandler<FormInput> = data => {
-    axios
-      .post('/api/auth/login', data)
-      .then((response) => {
-        const token = response.data;
-        console.log(token);
-        
-        if (token) {
-          // Enregistrer le token dans un cookie
-          Cookies.set('token', token);
-
-          // Appeler la fonction de rappel onLogin avec le token
-          onLogin(token);
-          console.log(token);
-
-          router.push('/channel');
-        } else {
-          setError('Identifiants invalides');
-        }
-      })
-      .catch((error) => {
-        setError('Identifiants invalides');
-        console.error('Erreur:', error);
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await axios.post("http://localhost:8080/users/login", {
+        email: data.email,
+        password: data.password,
       });
-  }
+
+      if (response.status === 200) {
+        const token = response.data.user.token;
+        Cookies.set("token", token, { expires: 10 });
+        router.push('/channel')
+        
+ } else {
+        // Gérez les erreurs de connexion
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Gérez les erreurs de connexion
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="email" {...register('email')} placeholder='Your email' />
-      <p> {errors.email?.message} </p>
-
-      <input type="password" {...register('password')} placeholder='Your password'/>
-      <p> {errors.password?.message} </p>
-
+      <div>
+        <input type="email" {...register("email")} />
+      </div>
+      <div>
+        <input type="password" {...register("password")} />
+      </div>
       <button type="submit">Se connecter</button>
     </form>
   );

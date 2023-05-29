@@ -3,17 +3,25 @@ import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { name, email, password, confirmPassword } = req.body;
-
-    if (password !== confirmPassword) {
-      return res.status(400).json({ error: 'Passwords do not match' });
-    }
-
     try {
-      const response = await axios.post('http://localhost:8080/users', { name, email, password, confirmPassword });
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const { channelId, members } = req.body;
+
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+
+      const response = await axios.post(`http://localhost:8080/channels/${channelId}/members`, { members }, config);
 
       if (response.status === 200) {
-        return res.status(200).json({ success: true });
+        const channelMember = response.data.channel;
+        return res.status(200).json({ success: true, channelMember });
       } else {
         return res.status(response.status).json({ error: 'An error occurred' });
       }
