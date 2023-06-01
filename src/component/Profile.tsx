@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { userType } from "@/type/user";
 import EditProfilePage from "./EditProfile";
+import { error } from "console";
 
 const ProfilePage = () => {
   const [user, setUser] = useState<userType | undefined>(undefined);
@@ -31,10 +32,12 @@ const ProfilePage = () => {
         const userData = response.data.user;
         setUser(userData);
       } else {
-        // Gérer les erreurs
+        console.log(error);
+        
       }
     } catch (error) {
-      // Gérer les erreurs
+      console.log(error);
+      
     }
   };
 
@@ -52,25 +55,27 @@ const ProfilePage = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Profile</h1>
       {user ? (
-        <div>
-          <p>Created at: {user.createdAt}</p>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Bio: {user.bio}</p>
+        <div className="card">
+          <div className="card-body">
+            <p className="card-text">Created at: {user.createdAt}</p>
+            <p className="card-text">Name: {user.name}</p>
+            <p className="card-text">Email: {user.email}</p>
+            <p className="card-text">Bio: {user.bio}</p>
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
       )}
       <div>
-      {!isEditing && !isProfileUpdated && (
-          <button onClick={handleEditButtonClick}>Edit Profile</button>
+        {!isEditing && !isProfileUpdated && (
+          <button className="btn btn-primary" onClick={handleEditButtonClick}>Edit Profile</button>
         )}
         {isEditing && (
           <EditProfilePage
-            initialData={ user}
+            initialData={user}
             onProfileUpdated={handleProfileUpdated}
           />
         )}

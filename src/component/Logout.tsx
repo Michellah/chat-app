@@ -6,7 +6,6 @@ const LogoutButton = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    // Supprimer le token du cookie
     Cookies.remove('token');
     router.push('/login');
   };

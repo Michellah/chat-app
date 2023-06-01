@@ -1,13 +1,20 @@
-import CreateChannel from '@/component/CreateChannel'
-import LogoutButton from '@/component/Logout'
-import Link from 'next/link'
-import React from 'react'
+import ChannelList from '@/component/ChannelList';
+import Link from 'next/link';
+import React from 'react';
 
-export default function index() {
+export default function IndexPage() {
   return (
-    <div>index
-      <LogoutButton />
-      <Link href={'/channel/create'}>Create</Link>
+    <div className="container">
+      <h1 className="text-center">Welcome to the Channel App</h1>
+      <Link href="/channel/create">
+        <p className="btn btn-primary create-channel-link">Create a new channel</p>
+      </Link>
+      <ChannelList />
+      <style jsx>{`
+        .create-channel-link {
+          margin-top: 20px;
+        }
+      `}</style>
     </div>
-  )
+  );
 }

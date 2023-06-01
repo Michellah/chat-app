@@ -18,7 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const response = await axios.get('http://localhost:8080/users', config);
       if (response.status === 200) {
         const users = response.data.users;
-        console.log(users);
         
         return res.status(200).json({ success: true, users });
       } else {

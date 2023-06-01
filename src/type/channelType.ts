@@ -1,5 +1,5 @@
 export interface ChannelType {
     name: string;
-  type: "Public" | "Private";
+  type: "public" | "private";
   members: string[];
 }

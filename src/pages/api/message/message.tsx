@@ -3,7 +3,8 @@ import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const token = req.cookies.token;
+    try {
+      const token = req.cookies.token;
       if (!token) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -13,17 +14,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           'Authorization': `Bearer ${token}`,
         },
       };
-    const { name, email, password, confirmPassword } = req.body;
 
-    if (password !== confirmPassword) {
-      return res.status(400).json({ error: 'Passwords do not match' });
-    }
+      const { channelId, recipientId, content } = req.body;
+      const data = {channelId, recipientId, content };
 
-    try {
-      const response = await axios.post('http://localhost:8080/users', { name, email, password, confirmPassword });
+      const response = await axios.post('http://localhost:8080/message', data, config);
 
       if (response.status === 200) {
-        return res.status(200).json({ success: true });
+        const message = response.data;
+        return res.status(200).json({ success: true, message });
       } else {
         return res.status(response.status).json({ error: 'An error occurred' });
       }

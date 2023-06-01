@@ -30,14 +30,14 @@ const LoginForm = () => {
       if (response.status === 200) {
         const token = response.data.user.token;
         Cookies.set("token", token, { expires: 10 });
-        router.push('/channel')
+        router.push('/profile')
         
  } else {
-        // Gérez les erreurs de connexion
+        console.log(errors);
+        
       }
     } catch (error) {
       console.error("Error:", error);
-      // Gérez les erreurs de connexion
     }
   };
 
