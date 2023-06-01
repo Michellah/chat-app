@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { userType } from "@/type/user";
 import EditProfilePage from "./EditProfile";
-import { error } from "console";
 
 const ProfilePage = () => {
   const [user, setUser] = useState<userType | undefined>(undefined);
@@ -32,7 +31,7 @@ const ProfilePage = () => {
         const userData = response.data.user;
         setUser(userData);
       } else {
-        console.log(error);
+        console.log('error');
         
       }
     } catch (error) {
