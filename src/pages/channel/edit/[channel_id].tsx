@@ -92,12 +92,6 @@ export default function EditChannel() {
       };
 
       const response = await axios.put(`/api/channel/${channelId}`, { name: data.name }, config);
-
-      if (response.status === 200) {
-        console.log('Channel name updated successfully');
-      } else {
-        console.error('Failed to update channel name');
-      }
     } catch (error) {
       console.error('Error:', error);
       console.log('Internal server error');

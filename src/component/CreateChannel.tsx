@@ -71,11 +71,9 @@ export default function CreateChannel() {
             };
 
             const response = await axios.post('/api/channel/createChannel', data, config);
-            if (response.status === 200) {
                 router.push('/channel');
-            } else {
-                setError('An error occurred');
-            }
+                // window.location.href='/channel'
+
         } catch (error) {
             setError('Internal server error');
         }
