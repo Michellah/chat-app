@@ -56,7 +56,7 @@ const EditProfilePage: React.FC<EditProfilePageProps> = ({ initialData, onProfil
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div>
           <label>Email:</label>
-          <input type="email" {...register("email")} />
+          <input type="email" {...register("email")} defaultValue={initialData?.email || ""}/>
         </div>
         <div>
           <label htmlFor="">Name</label>
@@ -73,7 +73,7 @@ const EditProfilePage: React.FC<EditProfilePageProps> = ({ initialData, onProfil
         </div>
         <div>
           <label>New Password:</label>
-          <input type="password" {...register("newPassword")} />
+          <input type="password" {...register("password")} />
         </div>
         <div>
           <label>Confirm Password:</label>

@@ -8,7 +8,6 @@ const AppNavbar = () => {
       <Navbar.Collapse id="navbar-nav">
         <Nav className="ml-auto">
           <Nav.Link href="/profile" className="custom-nav-link">Profile</Nav.Link>
-          <Nav.Link href="/channel" className="custom-nav-link">Channel</Nav.Link>
           <Nav.Link href="/logout" className="custom-nav-link">Log out</Nav.Link>
         </Nav>
       </Navbar.Collapse>

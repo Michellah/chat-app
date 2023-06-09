@@ -95,7 +95,6 @@ export default function EditChannel() {
 
       if (response.status === 200) {
         console.log('Channel name updated successfully');
-        // Effectuer les actions nécessaires après la mise à jour du nom du canal
       } else {
         console.error('Failed to update channel name');
       }
@@ -140,4 +139,5 @@ export default function EditChannel() {
     </div>
   );
 }
+
 

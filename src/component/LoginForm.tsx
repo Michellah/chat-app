@@ -1,14 +1,9 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-
-const schema = yup.object().shape({
-  email: yup.string().required("Email is required"),
-  password: yup.string().required("Password is required"),
-});
+import { schema } from "@/utils/loginValidation";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -31,10 +26,10 @@ const LoginForm = () => {
         const token = response.data.user.token;
         Cookies.set("token", token, { expires: 10 });
         router.push('/profile')
-        
- } else {
+
+      } else {
         console.log(errors);
-        
+
       }
     } catch (error) {
       console.error("Error:", error);

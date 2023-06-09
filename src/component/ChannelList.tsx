@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-export default function ChannelList() {
+export default function ChannelList({onSelectedChannel}: any) {
     const [channels, setChannels] = useState<any>([]);
     const router = useRouter();
 
@@ -46,7 +46,7 @@ export default function ChannelList() {
 
             <div className="list-group">
                 {channels.map((channel: any) => (
-                    <Link key={channel.id} href={`/message/${channel.id}`} passHref>
+                    <Link key={channel.id} href={`/channel/${channel.id}`} passHref>
                         <div className="list-group-item">
                             <h2>{channel.name}</h2>
                             <p>Type: {channel.type}</p>

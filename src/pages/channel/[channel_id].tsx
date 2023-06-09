@@ -3,11 +3,11 @@ import SendMessageForm from '@/component/SendMessageForm'
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-export default function index({ user_id, messages }: any) {
-  const [messageList, setMessageList] = useState(messages);
+export default function index({ channel_id, messages }: any) {
+  const [channelList, setChannelList] = useState(messages);
   const router = useRouter();
 
-  const fetchMessages = async () => {
+  const fetchChannel = async () => {
     try {
       const token = Cookies.get('token');
       if (!token) {
@@ -21,19 +21,18 @@ export default function index({ user_id, messages }: any) {
         },
       };
 
-      let url = `http://localhost:8080/messages/${user_id}`;
+      let url = `http://localhost:8080/messages/channel/${channel_id}`;
       const response = await axios.get(url, config);
       const updatedMessages = response.data.messages || [];
-      console.log(messageList);
-      
-      setMessageList(updatedMessages);
+
+      setChannelList(updatedMessages);
     } catch (error) {
       console.error('An error occurred while fetching messages', error);
     }
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchMessages, 1000); 
+    const interval = setInterval(fetchChannel, 1000); 
 
     return () => {
       clearInterval(interval);
@@ -43,7 +42,7 @@ export default function index({ user_id, messages }: any) {
   return (
     <div>
       <ul>
-        {messageList
+        {channelList
           .filter((message: any) => message.createdAt)
           .sort((a:any, b:any) => (b.createdAt).localeCompare(a.createdAt))
           .reverse()
@@ -61,7 +60,7 @@ export default function index({ user_id, messages }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const { user_id } = context.query;
+  const { channel_id } = context.query;
   const token = context.req.cookies.token;
 
   if (!token) {
@@ -80,20 +79,20 @@ export async function getServerSideProps(context: any) {
       },
     };
 
-    const response = await axios.get(`http://localhost:8080/messages/${user_id}`, config);
+    const response = await axios.get(`http://localhost:8080/messages/channel/${channel_id}`, config);
     const messages = response.data.messages || [];
 
     return {
       props: {
-        user_id,
+        channel_id,
         messages,
       },
     };
   } catch (error) {
-    console.error('An error occurred while retrieving messages', error);
+    console.error('An error occurred while retrieving channels', error);
     return {
       props: {
-        user_id,
+        channel_id,
         messages: [],
       },
     };

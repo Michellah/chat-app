@@ -1,28 +1,24 @@
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { messageSchema } from '@/utils/messageValidation';
-import { messageType } from '@/utils/messageType';
 import { useRouter } from 'next/router';
 
-export default function SendMessageForm({ recipientId }: any) {
-  const router = useRouter()
-  const {user_id} = router.query;
-  const { register, handleSubmit } = useForm<messageType>(
-    {
-      resolver: yupResolver(messageSchema)
-    }
-  );
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
+export default function SendMessageForm() {
+  const router = useRouter();
+  const { user_id, channel_id } = router.query;
+  
 
-  const onSubmit = async (data: any) => {
+  const { register, handleSubmit, reset } = useForm({
+    resolver: yupResolver(messageSchema)
+  });
+
+  const onSubmit = async (data:any) => {
     try {
       const token = Cookies.get('token');
       if (!token) {
-        setError('Unauthorized');
+        router.push('/login')
         return;
       }
 
@@ -31,14 +27,23 @@ export default function SendMessageForm({ recipientId }: any) {
           'Authorization': `Bearer ${token}`,
         },
       };
-      const response = await axios.post('http://localhost:8080/message/', {
-        recipientId: user_id,
-        content: data.content,
-      }, config);
 
-      console.log(response.data.message.content);
-      setMessage(response.data.message.content)
+      if (user_id) {
+        const response = await axios.post('http://localhost:8080/message/', {
+          recipientId: user_id,
+          content: data.message,
+        }, config);
+        console.log(response.data);
+      } else if (channel_id) {
+        const response = await axios.post('http://localhost:8080/message/', {
+          channelId: channel_id,
+          content: data.message,
+        }, config);
 
+        console.log(response.data);
+      }
+
+      reset();
     } catch (error) {
       console.error(error);
     }
@@ -47,12 +52,9 @@ export default function SendMessageForm({ recipientId }: any) {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('recipientId')} value={user_id} readOnly />
-        <textarea {...register('content')} placeholder="Message content" />
-        <button type="submit">Send Message</button>
+        <textarea {...register('message')} placeholder="Enter your message" />
+        <button type="submit">Send</button>
       </form>
-      <p>{message}</p>
     </div>
-
   );
 }

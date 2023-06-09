@@ -1,4 +1,5 @@
 import ChannelList from '@/component/ChannelList';
+import SendMessageForm from '@/component/SendMessageForm';
 import Link from 'next/link';
 import React from 'react';
 
@@ -9,7 +10,7 @@ export default function IndexPage() {
       <Link href="/channel/create">
         <p className="btn btn-primary create-channel-link">Create a new channel</p>
       </Link>
-      <ChannelList />
+      <ChannelList/>
       <style jsx>{`
         .create-channel-link {
           margin-top: 20px;

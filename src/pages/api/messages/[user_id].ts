@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
+    const user_id = req.query;
+    
+    if (req.method === 'GET') {
     try {
       const token = req.cookies.token;
       if (!token) {
@@ -15,16 +17,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       };
 
-      const { channelId, recipientId, content } = req.body;
-      const data = {channelId, recipientId, content };
+      const response = await axios.get(`http://localhost:8080/messages/${user_id}`, config);
 
-      const response = await axios.post('http://localhost:8080/message', data, config);
-
-      if (response.status === 200) {
+      if (response.status === 201) {
         const message = response.data;
-        return res.status(200).json({ success: true, message });
+        console.log(message);
+        
+        return res.status(201).json({ success: true, message });
       } else {
-        return res.status(response.status).json({ error: 'An error occurred' });
+        return res.status(response.status).json({ error: response.statusText });
       }
     } catch (error) {
       console.error('Error:', error);

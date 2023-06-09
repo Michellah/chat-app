@@ -1,11 +1,10 @@
-import CreateChannel from '@/component/CreateChannel'
-import React from 'react'
+import CreateChannelForm from '@/component/CreateChannel'
 
 export default function index() {
     
   return (
     <>
-        <CreateChannel/>
+        <CreateChannelForm/>
     </>
   )
 }

@@ -5,10 +5,8 @@ import { useRouter } from 'next/router';
 import { FormInput } from '@/type/form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '@/utils/signupValidation';
-import Cookies from 'js-cookie';
 
 const RegistrationForm: React.FC<any> = () => {
-  const [error, setError] = useState('');
   const router = useRouter();
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormInput>({
@@ -16,42 +14,18 @@ const RegistrationForm: React.FC<any> = () => {
   })
   const fetchProfile = async (data: FormInput) => {
     try {
-        const token = Cookies.get('token');
-        if (!token) {
-            router.push('/login');
-            return;
-        }
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        const response = await axios.get('/api/users/allUser', config);
-
-        if (response.status === 200) {
-          axios
-          .post('/api/auth/signup', data)
-          .then((response) => {
-            
-            router.push('/channel');
-          })
-          .catch((error) => {
-            setError('Identifiants invalides');
-            console.error('Erreur:', error);
-          });
-        } else {
-            console.log('An error occurred');
-        }
+      const response = await axios.post('/api/auth/signup', data)
+      if (response.status === 201) {
+        console.log(response.data);
+        router.push('/login')
+      }
     } catch (error) {
-        console.error('Error:', error);
-        console.log('Internal server error');
+      console.error('Error:', error);
+      console.log('Internal server error');
     }
-};
+  };
 
   const onSubmit: SubmitHandler<FormInput> = data => {
-    
     fetchProfile(data);
   }
 
@@ -63,10 +37,10 @@ const RegistrationForm: React.FC<any> = () => {
       <input type="email" {...register('email')} placeholder='Your email' />
       <p> {errors.email?.message} </p>
 
-      <input type="password" {...register('password')} placeholder='Your password'/>
+      <input type="password" {...register('password')} placeholder='Your password' />
       <p> {errors.password?.message} </p>
 
-      <input type="password" {...register('confirmPassword')} placeholder='Confirm your password'/>
+      <input type="password" {...register('confirmPassword')} placeholder='Confirm your password' />
       <p> {errors.confirmPassword?.message} </p>
       <button type="submit">Se connecter</button>
     </form>

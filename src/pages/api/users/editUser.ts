@@ -14,8 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           'Authorization': `Bearer ${token}`,
         },
       };
-      const { name, email, oldPassword, password, confirmPassword, bio } = req.body;
-      const data = { name, email, oldPassword, password, confirmPassword, bio };
+      const {email, name,  oldPassword, password, confirmPassword, bio } = req.body;
+      const data = {email, name,  oldPassword, password, confirmPassword, bio };
       const response = await axios.put('http://localhost:8080/user',data, config);
       if (response.status === 200) {
         const user = response.data.user;

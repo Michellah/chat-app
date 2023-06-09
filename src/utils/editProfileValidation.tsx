@@ -5,7 +5,7 @@ export const editProfileSchema = yup.object().shape({
   name: yup.string().optional().nullable(),
   bio: yup.string().optional().nullable(),
   oldPassword: yup.string().optional().nullable(),
-  newPassword: yup
+  password: yup
     .string()
     .optional()
     .nullable(),
