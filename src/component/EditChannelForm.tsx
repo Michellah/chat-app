@@ -133,7 +133,7 @@ export default function EditChannel() {
             </button>
           </div>
 
-          <button type="submit">Save</button>
+          <button type="submit" className='editChannelButton'>Save</button>
         </form>
       )}
     </div>

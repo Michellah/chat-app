@@ -52,8 +52,8 @@ export default function SendMessageForm() {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <textarea {...register('message')} placeholder="Enter your message" />
-        <button type="submit">Send</button>
+        <textarea {...register('message')} placeholder="Enter your message" name='message' />
+        <button type="submit" className='sendMessageButton'>Send</button>
       </form>
     </div>
   );

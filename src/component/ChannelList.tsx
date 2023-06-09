@@ -3,9 +3,20 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Nav } from 'react-bootstrap';
 
-export default function ChannelList({onSelectedChannel}: any) {
-    const [channels, setChannels] = useState<any>([]);
+interface Channel {
+    id: string;
+    name: string;
+    type: string;
+}
+
+interface ChannelListProps {
+    selectedType: string | null;
+}
+
+export default function ChannelList({ selectedType }: ChannelListProps) {
+    const [channels, setChannels] = useState<Channel[]>([]);
     const router = useRouter();
 
     const fetchChannels = async () => {
@@ -40,18 +51,20 @@ export default function ChannelList({onSelectedChannel}: any) {
         fetchChannels();
     }, []);
 
-    return (
-        <div className="channel-list">
-            <h1>ChannelList</h1>
+    const filteredChannels = selectedType
+        ? channels.filter((channel) => channel.type === selectedType)
+        : channels;
 
-            <div className="list-group">
-                {channels.map((channel: any) => (
-                    <Link key={channel.id} href={`/channel/${channel.id}`} passHref>
+    return (
+        <div>
+
+            <div >
+                {filteredChannels.map((channel: Channel) => (
+                    <Nav.Link key={channel.id} href={`/channel/${channel.id}`}>
                         <div className="list-group-item">
                             <h2>{channel.name}</h2>
-                            <p>Type: {channel.type}</p>
                         </div>
-                    </Link>
+                    </Nav.Link>
                 ))}
             </div>
         </div>

@@ -56,30 +56,30 @@ const EditProfilePage: React.FC<EditProfilePageProps> = ({ initialData, onProfil
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div>
           <label>Email:</label>
-          <input type="email" {...register("email")} defaultValue={initialData?.email || ""}/>
+          <input type="email" {...register("email")} defaultValue={initialData?.email || ""} name="email"/>
         </div>
         <div>
           <label htmlFor="">Name</label>
-          <input type="text" {...register("name")} defaultValue={initialData?.name || ""} />
+          <input type="text" {...register("name")} defaultValue={initialData?.name || ""} name="name" />
         </div>
 
         <div>
           <label htmlFor="">Bio</label>
-          <input type="text" {...register("bio")} defaultValue={initialData?.bio || ""} />
+          <textarea {...register("bio")} defaultValue={initialData?.bio || ""} name="bio"></textarea>
         </div>
         <div>
           <label>Old Password:</label>
-          <input type="password" {...register("oldPassword")} />
+          <input type="password" {...register("oldPassword")} name="currentPassword" />
         </div>
         <div>
           <label>New Password:</label>
-          <input type="password" {...register("password")} />
+          <input type="password" {...register("password")} name="newPassword" />
         </div>
         <div>
           <label>Confirm Password:</label>
-          <input type="password" {...register("confirmPassword")} />
+          <input type="password" {...register("confirmPassword")} name="confirmPassword"/>
         </div>
-        <button type="submit">Update Profile</button>
+        <button type="submit" className="updateProfileButton">Update Profile</button>
       </form>
       {error && <p>{error}</p>}
       {success && <p>Profile updated successfully!</p>}

@@ -39,12 +39,12 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <input type="email" {...register("email")} />
+        <input type="email" {...register("email")} name="email" />
       </div>
       <div>
-        <input type="password" {...register("password")} />
+        <input type="password" {...register("password")} name="password"/>
       </div>
-      <button type="submit">Se connecter</button>
+      <button type="submit" className="loginButton">Login</button>
     </form>
   );
 };

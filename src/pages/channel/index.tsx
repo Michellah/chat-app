@@ -10,7 +10,6 @@ export default function IndexPage() {
       <Link href="/channel/create">
         <p className="btn btn-primary create-channel-link">Create a new channel</p>
       </Link>
-      <ChannelList/>
       <style jsx>{`
         .create-channel-link {
           margin-top: 20px;

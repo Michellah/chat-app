@@ -31,18 +31,18 @@ const RegistrationForm: React.FC<any> = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" {...register('name')} placeholder='Your name' />
+      <input type="text" {...register('name')} placeholder='Your name' name='name' />
       <p> {errors.name?.message} </p>
 
-      <input type="email" {...register('email')} placeholder='Your email' />
+      <input type="email" {...register('email')} placeholder='Your email' name='email'/>
       <p> {errors.email?.message} </p>
 
-      <input type="password" {...register('password')} placeholder='Your password' />
+      <input type="password" {...register('password')} placeholder='Your password' name='password'/>
       <p> {errors.password?.message} </p>
 
-      <input type="password" {...register('confirmPassword')} placeholder='Confirm your password' />
+      <input type="password" {...register('confirmPassword')} placeholder='Confirm your password' name='confirmPassword'/>
       <p> {errors.confirmPassword?.message} </p>
-      <button type="submit">Se connecter</button>
+      <button type="submit" className='registerButton'>Register</button>
     </form>
   );
 };

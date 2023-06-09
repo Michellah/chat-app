@@ -73,8 +73,8 @@ export default function CreateChannelForm() {
             };
 
             if (data.type === 'public') {
-                data.members = []; 
-              }
+                data.members = [];
+            }
             const response = await axios.post('/api/channel/createChannel', data, config);
             router.push('/channel');
             // window.location.href='/channel'
@@ -89,31 +89,30 @@ export default function CreateChannelForm() {
             <form onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" {...register('name')} />
+                    <input type="text" className="form-control" id="name" {...register('name')} name='channelName' />
                     {errors && errors.name?.message}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="type" className="form-label">Type</label>
-                    <select className="form-select" id="type" {...register('type')}>
-                        <option value="private">Private</option>
+                    <select className="form-select" id="type" {...register('type')} name='type'>
                         <option value="public">Public</option>
-
+                        <option value="private">Private</option>
                     </select>
                 </div>
-                    {getValues('type') === 'private' && (
-                        <div className="mb-3">
-                            <label className="form-label">Members</label>
-                            <Select
-                                isMulti
-                                options={user.map((user) => ({ value: user.id, label: user.name }))}
-                                onChange={(selectedOptions) => {
-                                    const selectedValues = selectedOptions as { value: string; label: string; }[];
-                                    setSelectedMembers(selectedValues);
-                                    setValue('members', selectedValues.map((option) => option.value));
-                                }}
-                            />
-                        </div>
-                    )}
+                {getValues('type') === 'private' && (
+                    <div className="mb-3">
+                        <label className="form-label">Members</label>
+                        <Select
+                            isMulti
+                            options={user.map((user) => ({ value: user.id, label: user.name }))}
+                            onChange={(selectedOptions) => {
+                                const selectedValues = selectedOptions as { value: string; label: string; }[];
+                                setSelectedMembers(selectedValues);
+                                setValue('members', selectedValues.map((option) => option.value));
+                            }}
+                        />
+                    </div>
+                )}
 
                 <button type="submit" className="btn btn-primary">Create</button>
             </form>
