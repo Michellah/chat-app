@@ -3,6 +3,8 @@ import { Container, Row, Col, Nav, Dropdown } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import ChannelList from './ChannelList';
 import UserList from './UserList';
+import styles from '../styles/Sidebar.module.css'
+import Link from 'next/link';
 
 const Sidebar: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<any>();
@@ -22,13 +24,15 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <Container fluid className="h-100">
-      <Row className="h-100">
-        <Col sm={3} md={10} className="bg-dark text-light sidebar">
+    <div className={styles.sidebar}>
+      <Container fluid className="h-100 ">
+      <Row className="h-100" >
+        <Col md={2}  className="bg-dark text-light sidebar">
           <Nav className="flex-column">
             <Dropdown>
+              <Link href={'/channel'}>Channel</Link>
               <Dropdown.Toggle variant="dark" id="type-dropdown">
-                {selectedType ? selectedType : 'Select a type'}
+                {selectedType ? selectedType : 'Select type'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => handleChannelFilter('public')}>Public</Dropdown.Item>
@@ -38,8 +42,9 @@ const Sidebar: React.FC = () => {
             <ChannelList selectedType={selectedType} />
 
             <Dropdown>
+            Users
               <Dropdown.Toggle variant="dark" id="user-dropdown">
-                Users
+               
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <UserList onSelectUser={handleSelectUser} />
@@ -47,8 +52,12 @@ const Sidebar: React.FC = () => {
             </Dropdown>
           </Nav>
         </Col>
+        <Col >
+        </Col>
       </Row>
     </Container>
+    </div>
+    
   );
 };
 

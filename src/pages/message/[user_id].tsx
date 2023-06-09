@@ -3,6 +3,7 @@ import SendMessageForm from '@/component/SendMessageForm'
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import styles from '../../styles/Message.module.css'
 export default function index({ user_id, messages }: any) {
   const [messageList, setMessageList] = useState(messages);
   const router = useRouter();
@@ -41,7 +42,9 @@ export default function index({ user_id, messages }: any) {
   }, []);
 
   return (
-    <div>
+    <div className={styles.container} >
+    
+      <div className={styles.message}>
       <ul>
         {messageList
           .filter((message: any) => message.createdAt)
@@ -55,6 +58,8 @@ export default function index({ user_id, messages }: any) {
             </li>
           ))}
       </ul>
+      </div>
+        
       <SendMessageForm />
     </div>
   );

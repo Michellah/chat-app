@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { messageSchema } from '@/utils/messageValidation';
 import { useRouter } from 'next/router';
+import styles from '../styles/Message.module.css'
 
 export default function SendMessageForm() {
   const router = useRouter();
@@ -50,10 +51,10 @@ export default function SendMessageForm() {
   };
 
   return (
-    <div>
+    <div className={styles.profile}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <textarea {...register('message')} placeholder="Enter your message" name='message' />
-        <button type="submit" className='sendMessageButton'>Send</button>
+        <textarea {...register('message')} placeholder="Enter your message" name='message' className={styles.textarea} />
+        <button type="submit" className={styles.sendMessageButton}>Send</button>
       </form>
     </div>
   );

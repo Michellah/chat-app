@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { userType } from "@/type/user";
 import EditProfilePage from "./EditProfile";
+import UserList from "./UserList";
 
 const ProfilePage = () => {
   const [user, setUser] = useState<userType | undefined>(undefined);

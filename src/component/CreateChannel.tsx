@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { userType } from '@/type/user';
 import Select from 'react-select';
+import styles from '../styles/Profile.css.module.css'
 
 export default function CreateChannelForm() {
     const {
@@ -57,8 +58,6 @@ export default function CreateChannelForm() {
     }, []);
 
     const handleFormSubmit = async (data: ChannelType) => {
-        console.log('Form');
-
         try {
             const token = Cookies.get('token');
             if (!token) {
@@ -85,7 +84,8 @@ export default function CreateChannelForm() {
     };
 
     return (
-        <div className="container">
+        <div className={styles.profile }>
+            <div className="container">
             <form onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
@@ -117,5 +117,7 @@ export default function CreateChannelForm() {
                 <button type="submit" className="btn btn-primary">Create</button>
             </form>
         </div>
-    );
+
+        </div>
+            );
 }

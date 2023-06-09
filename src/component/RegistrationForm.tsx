@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { FormInput } from '@/type/form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '@/utils/signupValidation';
+import styles from '../styles/Register.module.css'
 
 const RegistrationForm: React.FC<any> = () => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const RegistrationForm: React.FC<any> = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form} >
       <input type="text" {...register('name')} placeholder='Your name' name='name' />
       <p> {errors.name?.message} </p>
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { schema } from "@/utils/loginValidation";
+import styles from '../styles/Login.module.css'
 
 const LoginForm = () => {
   const router = useRouter();
@@ -37,15 +38,20 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <input type="email" {...register("email")} name="email" />
+    <>
+
+      <div >
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+
+          <input type="email" {...register("email")} name="email" placeholder="Your email..." />
+
+          <input type="password" {...register("password")} name="password" placeholder="Your password..." />
+
+          <button type="submit" className="loginButton">Login</button>
+        </form>
       </div>
-      <div>
-        <input type="password" {...register("password")} name="password"/>
-      </div>
-      <button type="submit" className="loginButton">Login</button>
-    </form>
+    </>
+
   );
 };
 
